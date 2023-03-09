@@ -22,6 +22,18 @@ It should automatically change the name once you spin
 
 ## API Usage
 
-URL: `https://kahootname.up.rocket.app/<NAME>`
+Url syntax options:
 
-If no name is given, default will be used. Add the caret (^) character to represent an invisible character. This will not show on the screen, and will bypass the profanity filter
+- `https://kahootname.up.rocket.app/` (Default name)
+- `https://kahootname.up.rocket.app/<NAME>` Path
+- `https://kahootname.up.rocket.app/?name=<NAME>` Query overrides path
+
+If no name is given, default will be used.
+
+Add the caret (`^`) character to represent an invisible character.
+This will not show on the screen, and will bypass the profanity filter.
+If name only contains carets, then name will display blank.
+
+# Issues
+
+[Create a new issue](https://github.com/darccyy/kahoot-name/issues/new)

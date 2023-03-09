@@ -3,9 +3,8 @@
 #[macro_use]
 extern crate rocket;
 
-use std::path::PathBuf;
-
 use rocket_cors::{AllowedHeaders, AllowedOrigins, Cors, CorsOptions};
+use std::path::PathBuf;
 
 /// Default name returned if no name given
 const DEFAULT_NAME: &str = ":)";
@@ -41,11 +40,7 @@ fn name_path(name: PathBuf) -> String {
 fn get_cors() -> Cors {
     CorsOptions {
         allowed_origins: AllowedOrigins::All,
-        // allowed_methods: vec![Method::Get].into_iter().map(From::from).collect(),
         allowed_headers: AllowedHeaders::some(&[
-            // "Authorization",
-            // "Accept",
-            // "Access-Control-Allow-Origin",
             "Access-Control-Allow-Headers",
             "Origin, X-Requested-With, Content-Type, Accept",
         ]),
@@ -56,6 +51,7 @@ fn get_cors() -> Cors {
 }
 
 fn main() {
+    // Start rocket server
     rocket::ignite()
         .mount("/", routes![index, name_query, name_path])
         .attach(get_cors())

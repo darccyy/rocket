@@ -6,7 +6,11 @@ extern crate rocket;
 const DEFAULT_NAME: &str = ":)";
 
 fn get_name(name: Option<&str>) -> String {
-    format!("Using name: '{}'", name.unwrap_or(DEFAULT_NAME))
+    let name = name.unwrap_or(DEFAULT_NAME).replace('^', "ㅤ");
+
+    println!("Someone is named '{}'", name);
+
+    format!(r#"{{"name": "{}"}}"#, name)
 }
 
 #[get("/?<name>")]

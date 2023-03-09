@@ -1,7 +1,11 @@
-use std::path::PathBuf;
+#![feature(proc_macro_hygiene, decl_macro)]
 
 #[macro_use]
 extern crate rocket;
+
+use std::path::PathBuf;
+
+use rocket_cors::{AllowedHeaders, AllowedOrigins, CorsOptions};
 
 const DEFAULT_NAME: &str = ":)";
 
@@ -13,17 +17,39 @@ fn get_name(name: Option<&str>) -> String {
     format!(r#"{{"name": "{}"}}"#, name)
 }
 
+#[get("/")]
+fn index() -> String {
+    get_name(None)
+}
+
 #[get("/?<name>")]
-fn default(name: Option<&str>) -> String {
-    get_name(name)
+fn name_query(name: String) -> String {
+    get_name(Some(&name))
 }
 
 #[get("/<name..>")]
-fn custom(name: PathBuf) -> String {
+fn name_path(name: PathBuf) -> String {
     get_name(name.to_str())
 }
 
-#[launch]
-fn rocket() -> _ {
-    rocket::build().mount("/", routes![default, custom])
+fn main() {
+    let cors = CorsOptions {
+        allowed_origins: AllowedOrigins::All,
+        // allowed_methods: vec![Method::Get].into_iter().map(From::from).collect(),
+        allowed_headers: AllowedHeaders::some(&[
+            // "Authorization",
+            // "Accept",
+            // "Access-Control-Allow-Origin",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept",
+        ]),
+        ..Default::default()
+    }
+    .to_cors()
+    .expect("Error creating CORS");
+
+    rocket::ignite()
+        .mount("/", routes![index, name_query, name_path])
+        .attach(cors)
+        .launch();
 }

@@ -7,7 +7,7 @@ use rocket_cors::{AllowedHeaders, AllowedOrigins, Cors, CorsOptions};
 use std::path::PathBuf;
 
 /// Default name returned if no name given
-const DEFAULT_NAME: &str = ":)";
+const DEFAULT_NAME: &str = "https://bruh.news";
 
 /// Get name, formatted, from optional raw name string
 fn get_name(name: Option<&str>) -> String {

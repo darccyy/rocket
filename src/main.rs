@@ -12,9 +12,7 @@ const DEFAULT_NAME: &str = "https://bruh.news";
 /// Get name, formatted, from optional raw name string
 fn get_name(name: Option<&str>) -> String {
     let name = name.unwrap_or(DEFAULT_NAME).replace('^', "ㅤ");
-
     println!("Someone is named '{}'", name);
-
     format!(r#"{{"name": "{}"}}"#, name)
 }
 
